@@ -1,6 +1,7 @@
 from scrapy import Request
 from scrapy.spiders import Spider
 from crawler.items import USDoDArticleItem
+import re
 
 class BigdataSpider(Spider):
 
@@ -16,7 +17,11 @@ class BigdataSpider(Spider):
 
         for card in story_cards:
             item['title'] = card.xpath('.//@article-title').extract()[0]
+
+            item['mark'] = re.search(r'big[ -]?data', item['title'], re.I) != None
+            
             item['url'] = card.xpath('.//@article-url').extract()[0]
+            
             item['date'] = card.xpath('.//@publish-date-jss').extract()[0]
 
             yield item
@@ -24,11 +29,5 @@ class BigdataSpider(Spider):
         next_page = response.xpath('//span[@class="fa fa-chevron-right"]/../@href').extract()
         if next_page:
             next_url = next_page[0]
-
-            self.count += 1
-
-            if self.count > 3:
-                exit()
-
             yield Request(next_url)
         

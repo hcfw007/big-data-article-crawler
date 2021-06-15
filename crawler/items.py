@@ -13,3 +13,5 @@ class USDoDArticleItem(scrapy.Item):
     url = scrapy.Field()
 
     date = scrapy.Field()
+
+    mark = scrapy.Field()
