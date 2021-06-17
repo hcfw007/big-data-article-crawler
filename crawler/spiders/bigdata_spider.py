@@ -18,7 +18,7 @@ class BigdataSpider(Spider):
         for card in story_cards:
             item['title'] = card.xpath('.//@article-title').extract()[0]
 
-            if re.search(r'big[ -]?data', item['title'], re.I) == None: continue
+            if re.search(r'data', item['title'], re.I) == None: continue
             
             item['url'] = card.xpath('.//@article-url').extract()[0]
             
